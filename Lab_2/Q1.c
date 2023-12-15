@@ -9,7 +9,7 @@ struct DArray {
     int *data;
 };
 
-void query_1(int Arr[]) {
+void query_1(int Arr[], int func) {
     //for time calculation
     clock_t start, end;
     double cpu_time_used;
@@ -17,13 +17,24 @@ void query_1(int Arr[]) {
     Arr[1] += 5;
     end = clock();
     cpu_time_used = ((double)(end - start))/CLOCKS_PER_SEC;
-    printf("\nThe time taken for query 1 by function 1 is %f seconds", cpu_time_used);
+    printf("\nThe time taken for query 1 by function %d is %f seconds", func, cpu_time_used);
     printf("\nThe incremented value of the first index element is %d", Arr[1]);
 }
 
 //I didn't get the meaning of n-5
-void query_2(int Arr[]) {
-
+void query_2(int Arr[], int len, int func) {
+    //for time calculation
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
+    int sum = 0;
+    for(int i=0;i<len-5;i++) {
+        sum+=Arr[i];
+    }
+    end = clock();
+    cpu_time_used = ((double)(end - start))/CLOCKS_PER_SEC;
+    printf("\nThe time taken for query 2 by function %d is %f seconds", func, cpu_time_used);
+    printf("\nThe sum of first n-5 elements is %d", sum);
 }
 
 void function_1(int Arr[], int len) {
@@ -53,7 +64,8 @@ void function_1(int Arr[], int len) {
             FreqLen++;
         }
     }
-    query_1(CIarr);
+    query_1(CIarr, 1);
+    query_2(CIarr, FreqLen, 1);
 }
 
 //Binary Index Tree
@@ -78,7 +90,8 @@ void function_2(int Arr[], int len) {
     int BITree[len+1];
     for(int i=0;i<=len;i++)
         BITree[i] = BITreeP[i];
-    query_1(BITree);
+    query_1(BITree, 2);
+    query_2(BITree, len+1, 2);
 }
 
 void initiateDArray(struct DArray *Arr) {
@@ -113,7 +126,7 @@ void main() {
         }
         printf("\nBy function_1:");
         function_1(Arr, dArray.len);
-        printf("\nBy function_22:");
+        printf("\nBy function_2:");
         function_2(Arr, dArray.len); 
     } else if(c=='b') {
         //Input Array
